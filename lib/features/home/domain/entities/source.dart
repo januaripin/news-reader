@@ -7,5 +7,5 @@ class Source extends Equatable {
   Source(this.id, this.name);
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [id, name];
 }
