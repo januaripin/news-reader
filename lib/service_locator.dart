@@ -1,9 +1,9 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:news_reader_app/features/home/data/data_sources/home_remote_data_source.dart';
 import 'package:news_reader_app/features/home/data/repositories/home_repository_impl.dart';
+import 'package:news_reader_app/features/home/domain/repositories/home_repository.dart';
 import 'package:news_reader_app/features/home/domain/use_cases/get_sources.dart';
 import 'package:news_reader_app/features/home/presentation/bloc/source_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,10 +21,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetSources(sl()));
 
   // Repository
-  sl.registerLazySingleton(() => HomeRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<HomeRepository>(
+      () => HomeRepositoryImpl(remoteDataSource: sl(), networkInfo: sl()));
 
   // DataSource
-  sl.registerLazySingleton(() => HomeRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<HomeRemoteDataSource>(
+      () => HomeRemoteDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
@@ -33,5 +35,5 @@ Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
-  sl.registerLazySingleton(() => DataConnectionChecker());
+  sl.registerLazySingleton(() => InternetConnectionChecker());
 }

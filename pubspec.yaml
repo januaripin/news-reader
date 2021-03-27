@@ -28,10 +28,11 @@ dependencies:
   equatable: ^2.0.0
   dartz: ^0.10.0-nullsafety.1
   intl: ^0.17.0
-  data_connection_checker: ^0.3.4
+  internet_connection_checker: ^0.0.1
   http: ^0.13.1
   shared_preferences: ^2.0.5
   bloc_test: ^8.0.0
+  shimmer: ^2.0.0-nullsafety.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
