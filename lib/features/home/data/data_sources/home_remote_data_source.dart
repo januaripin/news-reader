@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:news_reader_app/core/constants/config.dart';
 import 'package:news_reader_app/core/errors/exceptions.dart';
+import 'package:news_reader_app/features/home/data/models/article_model.dart';
 import 'package:news_reader_app/features/home/data/models/source_model.dart';
 
 abstract class HomeRemoteDataSource {
   Future<List<SourceModel>> getSources();
+
+  Future<List<ArticleModel>> getTopHeadlines(String? sourceId);
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
@@ -27,6 +30,11 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     } else {
       throw HttpException(code: response.statusCode, message: response.body);
     }
+  }
+
+  @override
+  Future<List<ArticleModel>> getTopHeadlines(String? sourceId) async {
+    return List<ArticleModel>.empty(growable: true);
   }
 
   List<SourceModel> getSourceModels(json) {

@@ -11,8 +11,10 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 
-  HomeRepositoryImpl(
-      {required this.remoteDataSource, required this.networkInfo});
+  HomeRepositoryImpl({
+    required this.remoteDataSource,
+    required this.networkInfo,
+  });
 
   @override
   Future<Either<Failure, List<Source>>> getSources() async {
@@ -28,8 +30,16 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<Either<Failure, List<Article>>> getTopHeadlines(String? sourceId) {
-    // TODO: implement getTopHeadlines
-    throw UnimplementedError();
+  Future<Either<Failure, List<Article>>> getTopHeadlines(
+      String? sourceId) async {
+    if (!(await networkInfo.isConnected)) {
+      return Left(NoInternetFailure());
+    }
+
+    try {
+      return Right(await remoteDataSource.getTopHeadlines(sourceId));
+    } on HttpException {
+      return Left(HttpFailure());
+    }
   }
 }
