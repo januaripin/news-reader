@@ -1,5 +1,6 @@
 // @dart=2.9
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -20,42 +21,151 @@ void main() {
     remoteDataSource = HomeRemoteDataSourceImpl(client: mockHttpClient);
   });
 
-  test(
-    'should perform a GET request on a URL',
-    () async {
-      // arrange
-      when(mockHttpClient.get(any)).thenAnswer(
-        (_) async => http.Response(fixture('sources.json'), 200),
-      );
-
-      // act
-      final result = await remoteDataSource.getSources();
-
-      // assert
-      expect(
-          result,
-          remoteDataSource.getSourceModels(
-              json.decode(fixture('sources.json'))['sources']));
-      verify(
-        mockHttpClient.get(
-          Uri.parse(
-            '${Config.API_URL}/${Config.API_VERSION}/sources?apiKey=${Config.API_KEY}&country=us',
+  group('getSources', () {
+    test(
+      'should perform a GET request on a URL',
+      () async {
+        // arrange
+        when(mockHttpClient.get(any)).thenAnswer(
+          (_) async => http.Response(
+            fixture('sources.json'),
+            200,
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+            },
           ),
-        ),
-      );
-    },
-  );
+        );
 
-  test(
-    'should throw a HttpException',
-    () async {
-      // arrange
-      when(mockHttpClient.get(any)).thenAnswer(
-        (_) async => http.Response(fixture('api_key_missing.json'), 401),
-      );
+        // act
+        final result = await remoteDataSource.getSources();
 
-      // assert
-      expect(remoteDataSource.getSources(), throwsException);
-    },
-  );
+        // assert
+        expect(
+            result,
+            remoteDataSource.getSourceModels(
+                json.decode(fixture('sources.json'))['sources']));
+        verify(
+          mockHttpClient.get(
+            Uri.parse(
+              '${Config.API_URL}/${Config.API_VERSION}/sources?apiKey=${Config.API_KEY}&country=us',
+            ),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should throw a HttpException',
+      () async {
+        // arrange
+        when(mockHttpClient.get(any)).thenAnswer(
+          (_) async => http.Response(
+            fixture('api_key_missing.json'),
+            401,
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+            },
+          ),
+        );
+
+        // assert
+        expect(remoteDataSource.getSources(), throwsException);
+      },
+    );
+  });
+
+  group('getTopHeadlines', () {
+    test(
+      'should throw a HttpException',
+      () async {
+        // arrange
+        when(mockHttpClient.get(any)).thenAnswer(
+          (_) async => http.Response(
+            fixture('api_key_missing.json'),
+            401,
+            headers: {
+              HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+            },
+          ),
+        );
+
+        // assert
+        expect(remoteDataSource.getTopHeadlines("all"), throwsException);
+      },
+    );
+
+    group('fromAllSource', () {
+      final sourceId = "all";
+
+      test(
+        'should perform a GET request on a URL',
+        () async {
+          // arrange
+          when(mockHttpClient.get(any)).thenAnswer(
+            (_) async => http.Response(
+              fixture('articles.json'),
+              200,
+              headers: {
+                HttpHeaders.contentTypeHeader:
+                    'application/json; charset=utf-8',
+              },
+            ),
+          );
+
+          // act
+          final result = await remoteDataSource.getTopHeadlines(sourceId);
+
+          // assert
+          expect(
+              result,
+              remoteDataSource.getTopHeadlinesModels(
+                  json.decode(fixture('articles.json'))['articles']));
+          verify(
+            mockHttpClient.get(
+              Uri.parse(
+                '${Config.API_URL}/${Config.API_VERSION}/top-headlines?apiKey=${Config.API_KEY}&country=us',
+              ),
+            ),
+          );
+        },
+      );
+    });
+
+    group('from One Source', () {
+      final sourceId = "cnn";
+
+      test(
+        'should perform a GET request on a URL',
+        () async {
+          // arrange
+          when(mockHttpClient.get(any)).thenAnswer(
+            (_) async => http.Response(
+              fixture('cnn_articles.json'),
+              200,
+              headers: {
+                HttpHeaders.contentTypeHeader:
+                    'application/json; charset=utf-8',
+              },
+            ),
+          );
+
+          // act
+          final result = await remoteDataSource.getTopHeadlines(sourceId);
+
+          // assert
+          expect(
+              result,
+              remoteDataSource.getTopHeadlinesModels(
+                  json.decode(fixture('cnn_articles.json'))['articles']));
+          verify(
+            mockHttpClient.get(
+              Uri.parse(
+                '${Config.API_URL}/${Config.API_VERSION}/top-headlines?apiKey=${Config.API_KEY}&source=$sourceId',
+              ),
+            ),
+          );
+        },
+      );
+    });
+  });
 }

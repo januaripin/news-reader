@@ -1,0 +1,71 @@
+{
+  "status": "ok",
+  "totalResults": 5,
+  "articles": [
+    {
+      "source": {
+        "id": "cnn",
+        "name": "CNN"
+      },
+      "author": "Radina Gigova and Reuters, CNN",
+      "title": "At least 114 killed in Myanmar in deadliest day since start of protests",
+      "description": "At least 114 civilians were killed across Myanmar on Saturday, according to a tally by the independent Myanmar Now news outlet, as the military junta continued to crack down on peaceful protests.",
+      "url": "https://www.cnn.com/2021/03/27/asia/myanmar-protesters-day-of-shame-intl-hnk/index.html",
+      "urlToImage": "https://cdn.cnn.com/cnnnext/dam/assets/210327024732-02-myanmar-unrest-0327-super-tease.jpg",
+      "publishedAt": "2021-03-27T19:42:01Z",
+      "content": "(CNN)At least 114 civilians were killed across Myanmar on Saturday, according to a tally by the independent Myanmar Now news outlet, as the military junta continued to crack down on peaceful protests… [+7395 chars]"
+    },
+    {
+      "source": {
+        "id": "cnn",
+        "name": "CNN"
+      },
+      "author": "Priscilla Alvarez, CNN",
+      "title": "Biden administration projects at least 34,100 more beds needed to shelter migrant children",
+      "description": "The Biden administration could need at least 34,100 additional beds to keep up with the projected number of unaccompanied kids arriving at the US-Mexico border through September, according to internal government estimates obtained by CNN.",
+      "url": "http://us.cnn.com/2021/03/27/politics/us-mexico-border-migrant-children-beds/index.html",
+      "urlToImage": "https://cdn.cnn.com/cnnnext/dam/assets/210323125936-01-border-facility-donna-texas-super-tease.jpg",
+      "publishedAt": "2021-03-27T18:02:00Z",
+      "content": "(CNN)The Biden administration could need at least 34,100 additional beds to keep up with the projected number of unaccompanied kids arriving at the US-Mexico border through September, according to in… [+4010 chars]"
+    },
+    {
+      "source": {
+        "id": "cnn",
+        "name": "CNN"
+      },
+      "author": "Kate Bennett, CNN",
+      "title": "After two months in office, Kamala Harris is still living out of suitcases -- and she's getting frustrated with it",
+      "description": "It has been more than two months since Kamala Harris was sworn in as vice president of the United States, a historic moment for the country, as Harris is the first woman and the first woman of color to hold the second highest office in the land. Yet, Harris -…",
+      "url": "http://us.cnn.com/2021/03/27/politics/kamala-harris-vice-presidents-residence/index.html",
+      "urlToImage": "https://cdn.cnn.com/cnnnext/dam/assets/210120163806-11-biden-parade-harris-super-tease.jpg",
+      "publishedAt": "2021-03-27T16:36:14Z",
+      "content": "(CNN)It has been more than two months since Kamala Harris was sworn in as vice president of the United States, a historic moment for the country, as Harris is the first woman and the first woman of c… [+10045 chars]"
+    },
+    {
+      "source": {
+        "id": "cnn",
+        "name": "CNN"
+      },
+      "author": "Laura Smith-Spark, Magdy Samaan, Mick Krever and Mostafa Salem, CNN",
+      "title": "Fresh bid to dislodge stranded Suez Canal container ship",
+      "description": "Efforts to dislodge the huge container ship stuck in the Suez Canal intensified Saturday as the backlog of ships at either end of the crucial waterway grew, heightening concerns over the impact of the blockage on global supply chains.",
+      "url": "http://us.cnn.com/2021/03/27/africa/suez-canal-ship-refloat-attempt-intl/index.html",
+      "urlToImage": "https://cdn.cnn.com/cnnnext/dam/assets/210326160937-02-suez-canal-container-ship-0326-super-tease.jpg",
+      "publishedAt": "2021-03-27T14:12:03Z",
+      "content": "Cairo, Egypt (CNN)Efforts to dislodge the huge container ship stuck in the Suez Canal intensified Saturday as the backlog of ships at either end of the crucial waterway grew, heightening concerns ove… [+7371 chars]"
+    },
+    {
+      "source": {
+        "id": "cnn",
+        "name": "CNN"
+      },
+      "author": "Jason Hoffman and Jasmine Wright, CNN",
+      "title": "Second gentleman Doug Emhoff's first Passover at the White House brings host of changes to traditional celebration",
+      "description": "There are very few firsts at a Passover Seder, the traditional holiday meal Jewish people have celebrated for centuries. But for second gentleman Doug Emhoff, this Passover is very different than any he has celebrated in the past.",
+      "url": "http://us.cnn.com/2021/03/26/politics/passover-doug-emhoff-white-house/index.html",
+      "urlToImage": "https://cdn.cnn.com/cnnnext/dam/assets/201110145840-harris-emhoff-0812-super-tease.jpg",
+      "publishedAt": "2021-03-26T13:29:13Z",
+      "content": "(CNN)There are very few firsts at a Passover Seder, the traditional holiday meal Jewish people have celebrated for centuries. But for second gentleman Doug Emhoff, this Passover is very different tha… [+4782 chars]"
+    }
+  ]
+}

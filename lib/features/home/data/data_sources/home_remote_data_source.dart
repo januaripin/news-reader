@@ -34,7 +34,24 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<List<ArticleModel>> getTopHeadlines(String? sourceId) async {
-    return List<ArticleModel>.empty(growable: true);
+    String params = 'apiKey=${Config.API_KEY}';
+    if (sourceId == null || sourceId == "all") {
+      params = '$params&country=us';
+    } else {
+      params = '$params&source=$sourceId';
+    }
+
+    final response = await client.get(
+      Uri.parse(
+        '${Config.API_URL}/${Config.API_VERSION}/top-headlines?$params',
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return getTopHeadlinesModels(json.decode(response.body)['articles']);
+    } else {
+      throw HttpException(code: response.statusCode, message: response.body);
+    }
   }
 
   List<SourceModel> getSourceModels(json) {
@@ -43,5 +60,13 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       sourceModels.add(SourceModel.fromJson(v));
     });
     return sourceModels;
+  }
+
+  List<ArticleModel> getTopHeadlinesModels(json) {
+    List<ArticleModel> articleModels = List.empty(growable: true);
+    json.forEach((v) {
+      articleModels.add(ArticleModel.fromJson(v));
+    });
+    return articleModels;
   }
 }
