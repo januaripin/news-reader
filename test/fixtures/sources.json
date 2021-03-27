@@ -1,0 +1,50 @@
+{
+  "status": "ok",
+  "sources": [
+    {
+      "id": "abc-news",
+      "name": "ABC News",
+      "description": "Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com.",
+      "url": "https://abcnews.go.com",
+      "category": "general",
+      "language": "en",
+      "country": "us"
+    },
+    {
+      "id": "al-jazeera-english",
+      "name": "Al Jazeera English",
+      "description": "News, analysis from the Middle East and worldwide, multimedia and interactives, opinions, documentaries, podcasts, long reads and broadcast schedule.",
+      "url": "http://www.aljazeera.com",
+      "category": "general",
+      "language": "en",
+      "country": "us"
+    },
+    {
+      "id": "ars-technica",
+      "name": "Ars Technica",
+      "description": "The PC enthusiast's resource. Power users and the tools they love, without computing religion.",
+      "url": "http://arstechnica.com",
+      "category": "technology",
+      "language": "en",
+      "country": "us"
+    },
+    {
+      "id": "associated-press",
+      "name": "Associated Press",
+      "description": "The AP delivers in-depth coverage on the international, politics, lifestyle, business, and entertainment news.",
+      "url": "https://apnews.com/",
+      "category": "general",
+      "language": "en",
+      "country": "us"
+    },
+    {
+      "id": "axios",
+      "name": "Axios",
+      "description": "Axios are a new media company delivering vital, trustworthy news and analysis in the most efficient, illuminating and shareable ways possible.",
+      "url": "https://www.axios.com",
+      "category": "general",
+      "language": "en",
+      "country": "us"
+    }
+  ]
+}
