@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_reader_app/core/constants/app_colors.dart';
-import 'package:news_reader_app/features/home/presentation/pages/home_page.dart';
+import 'package:news_reader_app/features/root/presentation/pages/root_page.dart';
 import 'package:news_reader_app/generated/l10n.dart';
 
 import 'service_locator.dart' as di;
@@ -41,9 +41,9 @@ class _NewsReaderAppState extends State<NewsReaderApp> {
   Widget _getPage(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return HomePage();
+        return RootPage();
       default:
-        return HomePage();
+        return RootPage();
     }
   }
 }
