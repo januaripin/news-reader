@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_reader_app/features/article_detail/presentation/pages/article_detail_page.dart';
 import 'package:news_reader_app/features/home/domain/entities/article.dart';
 import 'package:news_reader_app/features/home/domain/entities/source.dart';
 import 'package:news_reader_app/features/home/presentation/bloc/source_bloc.dart';
@@ -167,7 +168,18 @@ class _HomePageState extends State<HomePage> {
 
                                   return NewsItem(
                                     article: _articles[index],
-                                    onTap: () {},
+                                    onTap: () {
+                                      debugPrint("Masuk ke sini");
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => ArticleDetailPage(
+                                              url: _articles[index].url),
+                                          settings: RouteSettings(
+                                              name: '/article-detail'),
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
                                 childCount: _articles.length,
