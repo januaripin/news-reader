@@ -31,3 +31,8 @@ class GetNewsByKeywordError extends NewsByKeywordState {
   @override
   List<Object?> get props => [message];
 }
+
+class GetNewsByKeywordCanceled extends NewsByKeywordState {
+  @override
+  List<Object?> get props => [];
+}

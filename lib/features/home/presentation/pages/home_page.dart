@@ -169,7 +169,6 @@ class _HomePageState extends State<HomePage> {
                                   return NewsItem(
                                     article: _articles[index],
                                     onTap: () {
-                                      debugPrint("Masuk ke sini");
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

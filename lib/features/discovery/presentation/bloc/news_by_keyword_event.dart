@@ -16,3 +16,8 @@ class GetNewsByKeywordEvent extends NewsByKeywordEvent {
   List<Object?> get props => [keyword, page, pageSize];
 
 }
+
+class GetNewsByKeywordStop extends NewsByKeywordEvent {
+  @override
+  List<Object?> get props => [];
+}

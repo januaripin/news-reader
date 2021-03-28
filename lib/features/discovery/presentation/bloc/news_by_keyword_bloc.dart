@@ -22,6 +22,8 @@ class NewsByKeywordBloc extends Bloc<NewsByKeywordEvent, NewsByKeywordState> {
       yield GetNewsByKeywordLoading();
       final result = await getNewsByKeyword.call(Params(keyword: event.keyword, page: event.page, pageSize: event.pageSize));
       yield result.fold((l) => GetNewsByKeywordError(message: l.message()), (r) => GetNewsByKeywordSuccess(articles: r));
+    } else if (event is GetNewsByKeywordStop) {
+      yield GetNewsByKeywordCanceled();
     }
   }
 }

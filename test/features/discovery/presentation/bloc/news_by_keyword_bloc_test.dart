@@ -61,4 +61,13 @@ void main() {
       GetNewsByKeywordError(message: 'Silakan periksa koneksi internet Anda')
     ],
   );
+
+  blocTest(
+    'emits [GetNewsByKeywordCanceled()] when nothing is added',
+    build: () {
+      return NewsByKeywordBloc(mockGetNewsByKeyword);
+    },
+    act: (bloc) => bloc.add(GetNewsByKeywordStop()),
+    expect: () => [GetNewsByKeywordCanceled()],
+  );
 }
