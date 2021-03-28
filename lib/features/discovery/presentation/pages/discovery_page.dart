@@ -28,24 +28,23 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           'Discovery',
           textAlign: TextAlign.center,
-          style: Theme
-              .of(context)
-              .textTheme
-              .headline5
-              ?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
+          style: Theme.of(context).textTheme.headline5?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
                 onChanged: (keyword) {
                   setState(() {
                     _keyword = keyword;
@@ -65,70 +64,72 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                   });
                 },
                 decoration: InputDecoration(
-                    filled: true,
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                    hintText: "Enter the keyword"
-                )),
-          ),
-          Expanded(
-            child: BlocProvider(
-              create: (_) => _bloc,
-              child: BlocBuilder<NewsByKeywordBloc, NewsByKeywordState>(
-                builder: (context, state) {
-                  if (state is GetNewsByKeywordError) {
-                    WidgetsBinding.instance?.addPostFrameCallback((_) {
-                      Utility.instance.showInfoDialog(context, state.message);
-                    });
-                  } else if (state is GetNewsByKeywordLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is GetNewsByKeywordCanceled) {
-                    return Container();
-                  } else if (state is GetNewsByKeywordSuccess) {
-                    _articles.addAll(state.articles);
-                    _isLastPage = state.articles.length < _pageSize;
-
-                    if (!_isLastPage) {
-                      _page++;
-                    }
-                  }
-
-                  return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: _articles.length,
-                    itemBuilder: (context, index) {
-                      if (index == _articles.length - 5 && !_isLastPage) {
-                        _bloc.add(
-                          GetNewsByKeywordEvent(
-                            keyword: _keyword,
-                            page: _page,
-                            pageSize: _pageSize,
-                          ),
-                        );
-                      }
-
-                      return NewsItem(
-                        article: _articles[index],
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  ArticleDetailPage(url: _articles[index].url),
-                              settings: RouteSettings(name: '/article-detail'),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
+                  filled: true,
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                  hintText: "Enter the keyword",
+                ),
               ),
             ),
-          )
-        ],
+            Expanded(
+              child: BlocProvider(
+                create: (_) => _bloc,
+                child: BlocBuilder<NewsByKeywordBloc, NewsByKeywordState>(
+                  builder: (context, state) {
+                    if (state is GetNewsByKeywordError) {
+                      WidgetsBinding.instance?.addPostFrameCallback((_) {
+                        Utility.instance.showInfoDialog(context, state.message);
+                      });
+                    } else if (state is GetNewsByKeywordLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is GetNewsByKeywordCanceled) {
+                      return Container();
+                    } else if (state is GetNewsByKeywordSuccess) {
+                      _articles.addAll(state.articles);
+                      _isLastPage = state.articles.length < _pageSize;
+
+                      if (!_isLastPage) {
+                        _page++;
+                      }
+                    }
+
+                    return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: _articles.length,
+                      itemBuilder: (context, index) {
+                        if (index == _articles.length - 5 && !_isLastPage) {
+                          _bloc.add(
+                            GetNewsByKeywordEvent(
+                              keyword: _keyword,
+                              page: _page,
+                              pageSize: _pageSize,
+                            ),
+                          );
+                        }
+
+                        return NewsItem(
+                          article: _articles[index],
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    ArticleDetailPage(url: _articles[index].url),
+                                settings: RouteSettings(name: '/article-detail'),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
