@@ -95,34 +95,52 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                       }
                     }
 
-                    return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: _articles.length,
-                      itemBuilder: (context, index) {
-                        if (index == _articles.length - 5 && !_isLastPage) {
-                          _bloc.add(
-                            GetNewsByKeywordEvent(
-                              keyword: _keyword,
-                              page: _page,
-                              pageSize: _pageSize,
-                            ),
-                          );
-                        }
-
-                        return NewsItem(
-                          article: _articles[index],
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    ArticleDetailPage(url: _articles[index].url),
-                                settings: RouteSettings(name: '/article-detail'),
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        setState(() {
+                          if (_keyword.isNotEmpty) {
+                            _page = 1;
+                            _articles.clear();
+                            _bloc.add(
+                              GetNewsByKeywordEvent(
+                                keyword: _keyword,
+                                page: _page,
+                                pageSize: _pageSize,
                               ),
                             );
-                          },
-                        );
+                          }
+                        });
                       },
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: _articles.length,
+                        itemBuilder: (context, index) {
+                          if (index == _articles.length - 5 && !_isLastPage) {
+                            _bloc.add(
+                              GetNewsByKeywordEvent(
+                                keyword: _keyword,
+                                page: _page,
+                                pageSize: _pageSize,
+                              ),
+                            );
+                          }
+
+                          return NewsItem(
+                            article: _articles[index],
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ArticleDetailPage(
+                                      url: _articles[index].url),
+                                  settings:
+                                      RouteSettings(name: '/article-detail'),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
                     );
                   },
                 ),
