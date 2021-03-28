@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:news_reader_app/core/constants/config.dart';
+import 'package:news_reader_app/core/data_sources/article_data_source.dart';
 import 'package:news_reader_app/core/errors/exceptions.dart';
 import 'package:news_reader_app/features/home/data/models/article_model.dart';
 import 'package:news_reader_app/features/home/data/models/source_model.dart';
@@ -12,7 +13,7 @@ abstract class HomeRemoteDataSource {
   Future<List<ArticleModel>> getTopHeadlines(String sourceId, int page, int pageSize);
 }
 
-class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
+class HomeRemoteDataSourceImpl extends ArticleDataSource implements HomeRemoteDataSource {
   final http.Client client;
 
   HomeRemoteDataSourceImpl({required this.client});
@@ -60,13 +61,5 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       sourceModels.add(SourceModel.fromJson(v));
     });
     return sourceModels;
-  }
-
-  List<ArticleModel> getTopHeadlinesModels(json) {
-    List<ArticleModel> articleModels = List.empty(growable: true);
-    json.forEach((v) {
-      articleModels.add(ArticleModel.fromJson(v));
-    });
-    return articleModels;
   }
 }
