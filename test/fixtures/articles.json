@@ -1,0 +1,32 @@
+{
+  "status": "ok",
+  "totalResults": 5,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "TMZ"
+      },
+      "author": "TMZ Staff",
+      "title": "Prince William Dubbed World's Sexiest Bald Man, Internet Outraged - TMZ",
+      "description": "The Duke of Cambridge is hotter than Shemar Moore, so says a UK surgery practice.",
+      "url": "https://www.tmz.com/2021/03/27/prince-william-worlds-sexiest-bald-man-google-survey-study/",
+      "urlToImage": "https://imagez.tmz.com/image/e9/16by9/2021/03/27/e96ec187bf36449aaa9ecc7acfb247cc_xl.jpg",
+      "publishedAt": "2021-03-27T18:20:04Z",
+      "content": "Prince William is the hottest bald guy on this planet"
+    },
+    {
+      "source": {
+        "id": "cnn",
+        "name": "CNN"
+      },
+      "author": "Estacio Valoi, Tim Lister and Isa Soares, CNN",
+      "title": "Dozens unaccounted for in Mozambique after Islamist attack, rights groups say - CNN ",
+      "description": "Thousands of people have fled the town of Palma in northern Mozambique after an attack by Islamist insurgents on Wednesday, according to human rights groups, while the fate of dozens of people who had taken refuge in a local hotel remains unclear.",
+      "url": "https://www.cnn.com/2021/03/27/africa/mozambique-attack-palma-intl/index.html",
+      "urlToImage": "https://cdn.cnn.com/cnnnext/dam/assets/210327123649-palma-mozambique-map-super-tease.jpg",
+      "publishedAt": "2021-03-27T17:56:00Z",
+      "content": "Maputo, Mozambique (CNN)Thousands of people have fled the town of Palma in northern Mozambique after an attack by Islamist insurgents on Wednesday, according to human rights groups, while the fate of… [+5426 chars]"
+    }
+  ]
+}
