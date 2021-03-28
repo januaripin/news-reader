@@ -6,6 +6,7 @@ import 'package:news_reader_app/generated/l10n.dart';
 import 'service_locator.dart' as di;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await di.init();
   runApp(NewsReaderApp());
 }
