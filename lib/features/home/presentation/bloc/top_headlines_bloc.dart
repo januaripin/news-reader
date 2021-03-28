@@ -21,7 +21,7 @@ class TopHeadlinesBloc extends Bloc<TopHeadlinesEvent, TopHeadlinesState> {
   ) async* {
     if (event is GetTopHeadlinesEvent) {
       yield GetTopHeadlinesLoading();
-      final result = await getTopHeadlines.call(event.sourceId);
+      final result = await getTopHeadlines.call(Params(sourceId: event.sourceId, page: event.page, pageSize: event.pageSize));
       yield result.fold(
         (l) => GetTopHeadlinesError(message: l.message()),
         (r) => GetTopHeadlinesSuccess(topHeadlines: r),

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_reader_app/features/home/domain/entities/article.dart';
 import 'package:news_reader_app/features/home/domain/entities/source.dart';
 import 'package:news_reader_app/features/home/presentation/bloc/source_bloc.dart';
+import 'package:news_reader_app/features/home/presentation/bloc/top_headlines_bloc.dart';
+import 'package:news_reader_app/features/home/presentation/widgets/news_item.dart';
+import 'package:news_reader_app/features/home/presentation/widgets/source_item.dart';
 import 'package:news_reader_app/generated/l10n.dart';
 import 'package:news_reader_app/service_locator.dart';
 import 'package:news_reader_app/utility.dart';
@@ -16,7 +20,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final SourceBloc _sourceBloc = sl<SourceBloc>();
+  final TopHeadlinesBloc _topHeadlinesBloc = sl<TopHeadlinesBloc>();
   String _selectedSourceId = "all";
+
+  List<Article> _articles = List.empty(growable: true);
+  int _page = 1;
+  int _pageSize = 20;
+  bool _isLastPage = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +35,23 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           color: Colors.white,
           child: MultiBlocProvider(
-            providers: [BlocProvider(create: (_) => _sourceBloc)],
+            providers: [
+              BlocProvider(create: (_) => _sourceBloc),
+              BlocProvider(create: (_) => _topHeadlinesBloc),
+            ],
             child: RefreshIndicator(
               onRefresh: () async {
-                _sourceBloc.add(GetSourceListEvent());
+                setState(() {
+                  _page = 1;
+                  _articles.clear();
+                });
+                _topHeadlinesBloc.add(
+                  GetTopHeadlinesEvent(
+                    sourceId: _selectedSourceId,
+                    page: _page,
+                    pageSize: _pageSize,
+                  ),
+                );
               },
               child: CustomScrollView(
                 slivers: [
@@ -60,6 +83,14 @@ class _HomePageState extends State<HomePage> {
                                 .showInfoDialog(context, state.message);
                           });
                         } else if (state is GetSourceListSuccess) {
+                          _page = 1;
+                          _articles.clear();
+                          WidgetsBinding.instance?.addPostFrameCallback((_) {
+                            _topHeadlinesBloc.add(GetTopHeadlinesEvent(
+                                sourceId: _selectedSourceId,
+                                page: _page,
+                                pageSize: _pageSize));
+                          });
                           final sources = List.empty(growable: true);
                           sources.add(Source("all", "All"));
                           sources.addAll(state.sources);
@@ -72,26 +103,12 @@ class _HomePageState extends State<HomePage> {
                               itemCount: sources.length,
                               itemBuilder: (context, index) {
                                 final source = sources[index];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 2.0),
-                                  child: ChoiceChip(
-                                    label: Text(
-                                      source.name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .caption
-                                          ?.copyWith(color: Colors.grey[800]),
-                                    ),
-                                    selected: _selectedSourceId == source.id,
-                                    selectedColor: Colors.grey[300],
-                                    backgroundColor: Colors.grey,
-                                    onSelected: (b) {
-                                      setState(() {
-                                        _selectedSourceId = source.id;
-                                      });
-                                    },
-                                  ),
+                                return SourceItem(
+                                  label: source.name,
+                                  onSelected: (b) {
+                                    _refreshPage(source.id);
+                                  },
+                                  selected: _selectedSourceId == source.id,
                                 );
                               },
                             ),
@@ -115,6 +132,49 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
+                  BlocBuilder<TopHeadlinesBloc, TopHeadlinesState>(
+                    builder: (context, state) {
+                      if (state is GetTopHeadlinesError) {
+                        WidgetsBinding.instance?.addPostFrameCallback((_) {
+                          Utility.instance
+                              .showInfoDialog(context, state.message);
+                        });
+                      } else if (state is GetTopHeadlinesSuccess) {
+                        _articles.addAll(state.topHeadlines);
+                        _isLastPage = state.topHeadlines.length < _pageSize;
+
+                        if (!_isLastPage) {
+                          _page++;
+                        }
+                      }
+
+                      return _articles.length == 0
+                          ? SliverToBoxAdapter(
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  if (index == _articles.length - 5 &&
+                                      !_isLastPage) {
+                                    _topHeadlinesBloc.add(GetTopHeadlinesEvent(
+                                        sourceId: _selectedSourceId,
+                                        page: _page,
+                                        pageSize: _pageSize));
+                                  }
+
+                                  return NewsItem(
+                                    article: _articles[index],
+                                    onTap: () {},
+                                  );
+                                },
+                                childCount: _articles.length,
+                              ),
+                            );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -122,5 +182,20 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void _refreshPage(sourceId) {
+    setState(() {
+      _selectedSourceId = sourceId;
+      _page = 1;
+      _articles.clear();
+      _topHeadlinesBloc.add(
+        GetTopHeadlinesEvent(
+          sourceId: sourceId,
+          page: _page,
+          pageSize: _pageSize,
+        ),
+      );
+    });
   }
 }

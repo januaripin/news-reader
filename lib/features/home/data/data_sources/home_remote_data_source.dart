@@ -9,7 +9,7 @@ import 'package:news_reader_app/features/home/data/models/source_model.dart';
 abstract class HomeRemoteDataSource {
   Future<List<SourceModel>> getSources();
 
-  Future<List<ArticleModel>> getTopHeadlines(String? sourceId);
+  Future<List<ArticleModel>> getTopHeadlines(String sourceId, int page, int pageSize);
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
@@ -33,12 +33,12 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   }
 
   @override
-  Future<List<ArticleModel>> getTopHeadlines(String? sourceId) async {
-    String params = 'apiKey=${Config.API_KEY}';
-    if (sourceId == null || sourceId == "all") {
+  Future<List<ArticleModel>> getTopHeadlines(String sourceId, int page, int pageSize) async {
+    String params = 'apiKey=${Config.API_KEY}&page=$page&pageSize=$pageSize';
+    if (sourceId == "all") {
       params = '$params&country=us';
     } else {
-      params = '$params&source=$sourceId';
+      params = '$params&sources=$sourceId';
     }
 
     final response = await client.get(

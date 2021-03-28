@@ -18,7 +18,8 @@ void main() {
     useCase = GetTopHeadlines(mockHomeRepository);
   });
 
-  final sourceId = "all";
+  final params = Params(sourceId: "all", page: 1, pageSize: 20);
+
   final article = Article(
     Source(
       "ny-times",
@@ -39,14 +40,14 @@ void main() {
     'should get top headlines from the repository',
     () async {
       // arrange
-      when(mockHomeRepository.getTopHeadlines(sourceId))
+      when(mockHomeRepository.getTopHeadlines(params.sourceId, params.page, params.pageSize))
           .thenAnswer((_) async => Right(articles));
       // act
-      final result = await useCase.call(sourceId);
+      final result = await useCase.call(params);
 
       // assert
       expect(result, Right(articles));
-      verify(mockHomeRepository.getTopHeadlines(sourceId));
+      verify(mockHomeRepository.getTopHeadlines(params.sourceId, params.page, params.pageSize));
       verifyNoMoreInteractions(mockHomeRepository);
     },
   );

@@ -5,7 +5,9 @@ import 'package:news_reader_app/features/home/data/data_sources/home_remote_data
 import 'package:news_reader_app/features/home/data/repositories/home_repository_impl.dart';
 import 'package:news_reader_app/features/home/domain/repositories/home_repository.dart';
 import 'package:news_reader_app/features/home/domain/use_cases/get_sources.dart';
+import 'package:news_reader_app/features/home/domain/use_cases/get_top_headlines.dart';
 import 'package:news_reader_app/features/home/presentation/bloc/source_bloc.dart';
+import 'package:news_reader_app/features/home/presentation/bloc/top_headlines_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
@@ -16,9 +18,11 @@ Future<void> init() async {
   //! Features - News Reader
   // Bloc
   sl.registerFactory(() => SourceBloc(sl()));
+  sl.registerFactory(() => TopHeadlinesBloc(sl()));
 
   // UseCase
   sl.registerLazySingleton(() => GetSources(sl()));
+  sl.registerLazySingleton(() => GetTopHeadlines(sl()));
 
   // Repository
   sl.registerLazySingleton<HomeRepository>(

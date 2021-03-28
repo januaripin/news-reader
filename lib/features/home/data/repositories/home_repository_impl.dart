@@ -31,13 +31,13 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, List<Article>>> getTopHeadlines(
-      String? sourceId) async {
+      String sourceId, int page, int pageSize) async {
     if (!(await networkInfo.isConnected)) {
       return Left(NoInternetFailure());
     }
 
     try {
-      return Right(await remoteDataSource.getTopHeadlines(sourceId));
+      return Right(await remoteDataSource.getTopHeadlines(sourceId, page, pageSize));
     } on HttpException {
       return Left(HttpFailure());
     }

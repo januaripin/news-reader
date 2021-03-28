@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:news_reader_app/core/constants/config.dart';
 import 'package:news_reader_app/features/home/data/data_sources/home_remote_data_source.dart';
+import 'package:news_reader_app/features/home/domain/use_cases/get_top_headlines.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
@@ -75,6 +76,7 @@ void main() {
   });
 
   group('getTopHeadlines', () {
+    final fromAllSourceParams = Params(sourceId: "all", page: 1, pageSize: 20);
     test(
       'should throw a HttpException',
       () async {
@@ -90,13 +92,11 @@ void main() {
         );
 
         // assert
-        expect(remoteDataSource.getTopHeadlines("all"), throwsException);
+        expect(remoteDataSource.getTopHeadlines(fromAllSourceParams.sourceId, fromAllSourceParams.page, fromAllSourceParams.pageSize), throwsException);
       },
     );
 
     group('fromAllSource', () {
-      final sourceId = "all";
-
       test(
         'should perform a GET request on a URL',
         () async {
@@ -113,7 +113,7 @@ void main() {
           );
 
           // act
-          final result = await remoteDataSource.getTopHeadlines(sourceId);
+          final result = await remoteDataSource.getTopHeadlines(fromAllSourceParams.sourceId, fromAllSourceParams.page, fromAllSourceParams.pageSize);
 
           // assert
           expect(
@@ -123,7 +123,7 @@ void main() {
           verify(
             mockHttpClient.get(
               Uri.parse(
-                '${Config.API_URL}/${Config.API_VERSION}/top-headlines?apiKey=${Config.API_KEY}&country=us',
+                '${Config.API_URL}/${Config.API_VERSION}/top-headlines?apiKey=${Config.API_KEY}&page=${fromAllSourceParams.page}&pageSize=${fromAllSourceParams.pageSize}&country=us',
               ),
             ),
           );
@@ -132,7 +132,7 @@ void main() {
     });
 
     group('from One Source', () {
-      final sourceId = "cnn";
+      final params = Params(sourceId: "cnn", page: 1, pageSize: 20);
 
       test(
         'should perform a GET request on a URL',
@@ -150,7 +150,7 @@ void main() {
           );
 
           // act
-          final result = await remoteDataSource.getTopHeadlines(sourceId);
+          final result = await remoteDataSource.getTopHeadlines(params.sourceId, params.page, params.pageSize);
 
           // assert
           expect(
@@ -160,7 +160,7 @@ void main() {
           verify(
             mockHttpClient.get(
               Uri.parse(
-                '${Config.API_URL}/${Config.API_VERSION}/top-headlines?apiKey=${Config.API_KEY}&source=$sourceId',
+                '${Config.API_URL}/${Config.API_VERSION}/top-headlines?apiKey=${Config.API_KEY}&page=${params.page}&pageSize=${params.pageSize}&sources=${params.sourceId}',
               ),
             ),
           );

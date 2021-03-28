@@ -6,6 +6,7 @@ import 'package:news_reader_app/core/errors/failures.dart';
 import 'package:news_reader_app/features/home/data/models/article_model.dart';
 import 'package:news_reader_app/features/home/data/models/source_model.dart';
 import 'package:news_reader_app/features/home/data/repositories/home_repository_impl.dart';
+import 'package:news_reader_app/features/home/domain/use_cases/get_top_headlines.dart';
 
 import '../../../../core/network/mock_network_info.dart';
 import '../data_sources/mock_home_remote_data_source.dart';
@@ -89,7 +90,7 @@ void main() {
   });
 
   group('getTopHeadlines', () {
-    final sourceId = "all";
+    final params = Params(sourceId: "all", page: 1, pageSize: 20);
 
     final articleModels = List.of([
       ArticleModel(
@@ -116,7 +117,7 @@ void main() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
 
         // act
-        repository.getTopHeadlines(sourceId);
+        repository.getTopHeadlines(params.sourceId, params.page, params.pageSize);
 
         // assert
         verify(mockNetworkInfo.isConnected);
@@ -128,14 +129,14 @@ void main() {
         'should return remote data when the call to remote data source is success',
         () async {
           // arrange
-          when(mockHomeRemoteDataSource.getTopHeadlines(sourceId))
+          when(mockHomeRemoteDataSource.getTopHeadlines(params.sourceId, params.page, params.pageSize))
               .thenAnswer((_) async => articleModels);
 
           // act
-          final result = await repository.getTopHeadlines(sourceId);
+          final result = await repository.getTopHeadlines(params.sourceId, params.page, params.pageSize);
 
           // assert
-          verify(mockHomeRemoteDataSource.getTopHeadlines(sourceId));
+          verify(mockHomeRemoteDataSource.getTopHeadlines(params.sourceId, params.page, params.pageSize));
           expect(result, equals(Right(articleModels)));
         },
       );
@@ -146,14 +147,14 @@ void main() {
         'should return no internet failure',
         () async {
           // arrange
-          when(mockHomeRemoteDataSource.getTopHeadlines(sourceId))
+          when(mockHomeRemoteDataSource.getTopHeadlines(params.sourceId, params.page, params.pageSize))
               .thenAnswer((_) async => articleModels);
 
           // act
-          final result = await repository.getTopHeadlines(sourceId);
+          final result = await repository.getTopHeadlines(params.sourceId, params.page, params.pageSize);
 
           // assert
-          verifyNever(mockHomeRemoteDataSource.getTopHeadlines(sourceId));
+          verifyNever(mockHomeRemoteDataSource.getTopHeadlines(params.sourceId, params.page, params.pageSize));
           verifyZeroInteractions(mockHomeRemoteDataSource);
           expect(result, equals(Left(NoInternetFailure())));
         },

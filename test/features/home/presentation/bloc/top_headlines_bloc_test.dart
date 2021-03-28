@@ -19,7 +19,7 @@ void main() {
     mockGetTopHeadlines = MockGetTopHeadlines();
   });
 
-  final sourceId = "all";
+  final params = Params(sourceId: "all", page: 1);
 
   final articleModels = List.of([
     ArticleModel(
@@ -48,11 +48,11 @@ void main() {
   blocTest(
     'emits [GetTopHeadlinesLoading,GetTopHeadlinesSuccess] when nothing is added',
     build: () {
-      when(mockGetTopHeadlines(sourceId))
+      when(mockGetTopHeadlines(params))
           .thenAnswer((_) async => Right(articleModels));
       return TopHeadlinesBloc(mockGetTopHeadlines);
     },
-    act: (bloc) => bloc.add(GetTopHeadlinesEvent(sourceId)),
+    act: (bloc) => bloc.add(GetTopHeadlinesEvent(sourceId: params.sourceId, page: params.page)),
     expect: () => [
       GetTopHeadlinesLoading(),
       GetTopHeadlinesSuccess(topHeadlines: articleModels)
@@ -62,11 +62,11 @@ void main() {
   blocTest(
     'emits [GetTopHeadlinesLoading,GetTopHeadlinesError] when nothing is added',
     build: () {
-      when(mockGetTopHeadlines(sourceId))
+      when(mockGetTopHeadlines(params))
           .thenAnswer((_) async => Left(NoInternetFailure()));
       return TopHeadlinesBloc(mockGetTopHeadlines);
     },
-    act: (bloc) => bloc.add(GetTopHeadlinesEvent(sourceId)),
+    act: (bloc) => bloc.add(GetTopHeadlinesEvent(sourceId: params.sourceId, page: params.page)),
     expect: () => [
       GetTopHeadlinesLoading(),
       GetTopHeadlinesError(message: 'Silakan periksa koneksi internet Anda')
