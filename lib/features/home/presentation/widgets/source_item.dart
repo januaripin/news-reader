@@ -21,7 +21,7 @@ class SourceItem extends StatelessWidget {
             label,
             style: Theme.of(context)
                 .textTheme
-                .caption
+                .bodySmall
                 ?.copyWith(color: Colors.grey[800]),
           ),
           selected: selected,

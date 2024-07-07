@@ -53,7 +53,7 @@ class NewsItem extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
                     article.title,
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
@@ -69,7 +69,7 @@ class NewsItem extends StatelessWidget {
                   Expanded(
                       child: Text(
                     'by ${article.author == '' ? 'anonymous' : article.author}',
-                    style: Theme.of(context).textTheme.caption?.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontStyle: FontStyle.italic,
                         ),
                   )),
@@ -79,7 +79,7 @@ class NewsItem extends StatelessWidget {
                           article.publishedAt,
                         ).millisecondsSinceEpoch,
                       ),
-                      style: Theme.of(context).textTheme.caption)
+                      style: Theme.of(context).textTheme.bodySmall)
                 ],
               ),
             ),
@@ -88,7 +88,7 @@ class NewsItem extends StatelessWidget {
                   top: 8, bottom: 24, right: 16, left: 16),
               child: Text(
                 article.content,
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             )
           ],

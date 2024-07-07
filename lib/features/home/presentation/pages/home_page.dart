@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(
           S().app_name,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline5?.copyWith(
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
         ),
@@ -72,13 +72,13 @@ class _HomePageState extends State<HomePage> {
                     if (state is SourceInitial) {
                       _sourceBloc.add(GetSourceListEvent());
                     } else if (state is GetSourceListError) {
-                      WidgetsBinding.instance?.addPostFrameCallback((_) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
                         Utility.instance.showInfoDialog(context, state.message);
                       });
                     } else if (state is GetSourceListSuccess) {
                       _page = 1;
                       _articles.clear();
-                      WidgetsBinding.instance?.addPostFrameCallback((_) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
                         _topHeadlinesBloc.add(GetTopHeadlinesEvent(
                             sourceId: _selectedSourceId,
                             page: _page,
@@ -113,11 +113,17 @@ class _HomePageState extends State<HomePage> {
                       highlightColor: Colors.grey[100]!,
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           for (int i = 0; i < 4; i++)
-                            Chip(
-                              label: Text('shimmer'),
+                            Expanded(
+                              child: Chip(
+                                padding: EdgeInsets.symmetric(horizontal: 4.0),
+                                label: Text(
+                                  'shimmer',
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
                             )
                         ],
                       ),
@@ -128,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                   child: BlocBuilder<TopHeadlinesBloc, TopHeadlinesState>(
                     builder: (context, state) {
                       if (state is GetTopHeadlinesError) {
-                        WidgetsBinding.instance?.addPostFrameCallback((_) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
                           Utility.instance
                               .showInfoDialog(context, state.message);
                         });
