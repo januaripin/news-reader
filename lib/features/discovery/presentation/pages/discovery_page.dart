@@ -33,7 +33,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
         title: Text(
           'Discovery',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline5?.copyWith(
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
         ),
@@ -77,7 +77,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                 child: BlocBuilder<NewsByKeywordBloc, NewsByKeywordState>(
                   builder: (context, state) {
                     if (state is GetNewsByKeywordError) {
-                      WidgetsBinding.instance?.addPostFrameCallback((_) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
                         Utility.instance.showInfoDialog(context, state.message);
                       });
                     } else if (state is GetNewsByKeywordLoading) {
